@@ -16,6 +16,7 @@ export function AuthStack({ stack, app }) {
     // Allow access to the API
     api,
     // Policy granting access to a specific folder in the bucket
+    // Securing Access to Uploaded Files
     new iam.PolicyStatement({
       actions: ["s3:*"],
       effect: iam.Effect.ALLOW,
