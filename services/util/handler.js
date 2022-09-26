@@ -22,10 +22,13 @@ export default function handler(lambda) {
     return {
       statusCode,
       body: JSON.stringify(body),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
     };
   };
 }
-
 // It’s important to note that the handler.js needs to be imported
 // before we import anything else. T
 // his is because we’ll be adding some error handling to it later
