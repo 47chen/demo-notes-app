@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
+import { Auth } from "aws-amplify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,8 +12,16 @@ export default function Login() {
     return email.length > 0 && password.length > 0;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    try {
+      // Auth.signIn -> This method returns a promise since it will be logging in the user asynchronously.
+      await Auth.signIn(email, password);
+      alert("Logged in");
+    } catch (e) {
+      alert("e.message");
+    }
   };
 
   return (
