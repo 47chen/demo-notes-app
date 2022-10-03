@@ -31,6 +31,9 @@ function App() {
   };
 
   const handleLogout = () => {
+    // helps clear local storage(using Amplify) out
+    await Auth.signOut();
+
     userHasAuthenticated(false);
   };
 
