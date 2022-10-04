@@ -7,6 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { AppContext } from "./lib/contextLib";
 import { Auth } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
+import { onError } from "./lib/errorLib";
 
 function App() {
   const nav = useNavigate();
@@ -25,7 +26,7 @@ function App() {
       userHasAuthenticated(true);
     } catch (e) {
       if (e !== "No current user") {
-        alert(e);
+        onError(e);
       }
     }
 

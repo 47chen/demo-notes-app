@@ -5,6 +5,7 @@ import "./Login.css";
 import { Auth } from "aws-amplify";
 import { useAppContext } from "../lib/contextLib";
 import { useNavigate } from "react-router-dom";
+import { onError } from "../lib/errorLib";
 
 export default function Login() {
   const nav = useNavigate();
@@ -30,7 +31,7 @@ export default function Login() {
       //   alert("Logged in");
       nav("/");
     } catch (e) {
-      alert(e.message);
+      onError(e);
       setIsLoading(false);
     }
   };
