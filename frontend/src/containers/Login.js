@@ -12,6 +12,7 @@ export default function Login() {
   const { userHasAuthenticated } = useAppContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateForm = () => {
     return email.length > 0 && password.length > 0;
@@ -19,6 +20,8 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setIsLoading(true);
 
     try {
       // Auth.signIn -> This method returns a promise since it will be logging in the user asynchronously.
@@ -28,6 +31,7 @@ export default function Login() {
       nav("/");
     } catch (e) {
       alert(e.message);
+      setIsLoading(false);
     }
   };
 
