@@ -30,7 +30,7 @@ function App() {
     setIsAuthenticating(false);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // helps clear local storage(using Amplify) out
     await Auth.signOut();
 
