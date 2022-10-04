@@ -6,8 +6,10 @@ import Nav from "react-bootstrap/Nav";
 import { LinkContainer } from "react-router-bootstrap";
 import { AppContext } from "./lib/contextLib";
 import { Auth } from "aws-amplify";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const nav = useNavigate();
   // To make our login information persist we need to store and load it from the browser session.
   // This load user seesion
   const [isAuthenticating, setIsAuthenticating] = useState(true);
@@ -35,6 +37,8 @@ function App() {
     await Auth.signOut();
 
     userHasAuthenticated(false);
+
+    nav("/login");
   };
 
   return (
