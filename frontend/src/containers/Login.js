@@ -6,17 +6,22 @@ import { Auth } from "aws-amplify";
 import { useAppContext } from "../lib/contextLib";
 import { useNavigate } from "react-router-dom";
 import { onError } from "../lib/errorLib";
+import { useFormFields } from "../lib/hooksLib";
 
 export default function Login() {
   const nav = useNavigate();
-
   const { userHasAuthenticated } = useAppContext();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  //   const [email, setEmail] = useState("");
+  //   const [password, setPassword] = useState("");
+
+  const [fields, handleFieldChange] = useFormFields({
+    email: "",
+    password: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const validateForm = () => {
-    return email.length > 0 && password.length > 0;
+    return fields.email.length > 0 && fields.password.length > 0;
   };
 
   const handleSubmit = async (event) => {
@@ -26,12 +31,14 @@ export default function Login() {
 
     try {
       // Auth.signIn -> This method returns a promise since it will be logging in the user asynchronously.
-      await Auth.signIn(email, password);
+      await Auth.signIn(fields.email, fields.password);
+
       userHasAuthenticated(true);
-      //   alert("Logged in");
+
       nav("/");
     } catch (e) {
       onError(e);
+
       setIsLoading(false);
     }
   };
@@ -44,7 +51,7 @@ export default function Login() {
           <Form.Control
             autoFocus
             type="email"
-            value={email}
+            value={fields.email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
@@ -52,8 +59,8 @@ export default function Login() {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={fields.password}
+            onChange={handleFieldChange}
           />
         </Form.Group>
         <LoaderButton
