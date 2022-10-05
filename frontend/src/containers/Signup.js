@@ -6,6 +6,7 @@ import { useAppContext } from "../lib/contextLib";
 import { useFormFields } from "../lib/hooksLib";
 import { onError } from "../lib/errorLib";
 import "./Signup.css";
+import { Auth } from "aws-amplify";
 
 export default function Signup() {
   const [fields, handleFieldChange] = useFormFields({
@@ -35,13 +36,31 @@ export default function Signup() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    setNewUser("test user");
-    setIsLoading(false);
+    try {
+      const newUser = await Auth.signUp({
+        username: fields.email,
+        password: fields.password,
+      });
+      setIsLoading(false);
+      setNewUser(newUser);
+    } catch (e) {
+      onError(e);
+      setIsLoading(false);
+    }
   };
 
   const handleConfirmationSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
+    try {
+      await Auth.confirmSignUp(fields.email, fields.confirmationCode);
+      await Auth.signIn(fields.email, fields.password);
+      userHasAuthenticated(true);
+      nav("/");
+    } catch (e) {
+      onError(e);
+      setIsLoading(false);
+    }
   };
 
   const renderConfirmationForm = () => {
@@ -53,7 +72,7 @@ export default function Signup() {
             autoFocus
             type="tel"
             onChange={handleFieldChange}
-            value={fields.confirmPassword}
+            value={fields.confirmationCode}
           />
           <Form.Text muted>Please check your email for the code.</Form.Text>
         </Form.Group>
