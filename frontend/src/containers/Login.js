@@ -52,7 +52,7 @@ export default function Login() {
             autoFocus
             type="email"
             value={fields.email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleFieldChange}
           />
         </Form.Group>
         <Form.Group size="lg" controlId="password">
