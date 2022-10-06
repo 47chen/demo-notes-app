@@ -5,6 +5,7 @@ import LoaderButton from "../components/LoaderButton";
 import { onError } from "../lib/errorLib";
 import config from "../config";
 import "./NewNote.css";
+import { API } from "aws-amplify";
 
 export default function NewNote() {
   //It simply tells React to store a value for us so that we can use it later.
@@ -34,6 +35,21 @@ export default function NewNote() {
     }
 
     setIsLoading(true);
+
+    try {
+      await createNote({ content });
+      nav("/");
+    } catch (e) {
+      onError(e);
+      setIsLoading(false);
+    }
+  };
+
+  //We make our create call in createNote by making a POST request to /notes and passing in our note object.
+  const createNote = (note) => {
+    return API.post("notes", "/notes", {
+      body: note,
+    });
   };
 
   return (
