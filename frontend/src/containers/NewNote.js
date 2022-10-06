@@ -6,6 +6,7 @@ import { onError } from "../lib/errorLib";
 import config from "../config";
 import "./NewNote.css";
 import { API } from "aws-amplify";
+import { s3Upload } from "../lib/awsLib";
 
 export default function NewNote() {
   //It simply tells React to store a value for us so that we can use it later.
@@ -37,6 +38,8 @@ export default function NewNote() {
     setIsLoading(true);
 
     try {
+      const attachment = file.current ? await s3Upload(file.current) : null;
+
       await createNote({ content });
       nav("/");
     } catch (e) {
