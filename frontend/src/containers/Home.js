@@ -1,3 +1,4 @@
+import { API } from "aws-amplify";
 import React, { useState, useEffect } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useAppContext } from "../lib/contextLib";
@@ -9,6 +10,29 @@ export default function Home() {
   const [notes, setNotes] = useState([]);
   const { isAuthenticated } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const onLoad = async () => {
+      if (!isAuthenticated) {
+        return;
+      }
+
+      try {
+        const notes = await loadNotes();
+        setNotes(notes);
+      } catch (e) {
+        onError(e);
+      }
+
+      setIsLoading(false);
+    };
+
+    onLoad();
+  }, [isAuthenticated]);
+
+  const loadNotes = () => {
+    return API.get("notes", "/notes");
+  };
 
   const renderNotesList = (notes) => {
     return null;
