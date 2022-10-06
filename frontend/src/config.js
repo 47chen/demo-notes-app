@@ -1,4 +1,5 @@
 const config = {
+  MAX_ATTACHMENT_SIZE: 5000000,
   // Backend config
   // Here we are loading the environment that are set from our serverless backend.
   s3: {
