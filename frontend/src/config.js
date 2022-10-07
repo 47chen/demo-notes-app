@@ -1,4 +1,6 @@
 const config = {
+  STRIPE_KEY:
+    "pk_test_51Lm5z3DkAe0Egm4Y7ToLE3E6jtpi2B6r29mVLje2FqMrmNoDhGFkiYscUZQoXfa4qlr9Lk5jZfBD88nlFb8V6dNz00IoGaIXrb",
   MAX_ATTACHMENT_SIZE: 5000000,
   // Backend config
   // Here we are loading the environment that are set from our serverless backend.
