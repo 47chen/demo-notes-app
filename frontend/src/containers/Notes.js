@@ -94,7 +94,17 @@ export default function Notes() {
     }
   };
 
-  const handleDelete = (event) => {
+  /*We are simply making a DELETE request to /notes/:id 
+  where we get the id from useParams hook provided by React Router. 
+  We use the API.del method from AWS Amplify to do so. 
+  This calls our delete API and we redirect to the homepage on success.
+  */
+
+  const deleteNote = () => {
+    return API.del("notes", `/notes/${id}`);
+  };
+
+  const handleDelete = async (event) => {
     event.preventDefault();
 
     const confirmed = window.confirm(
@@ -106,6 +116,14 @@ export default function Notes() {
     }
 
     setIsDeleting(true);
+
+    try {
+      await deleteNote();
+      nav("/");
+    } catch (e) {
+      onError(e);
+      setIsLoading(false);
+    }
   };
   return (
     <div className="Notes">
