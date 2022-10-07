@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import LoaderButton from "./LoaderButton";
+import LoaderButton from "../components/LoaderButton";
 import { useFormFields } from "../lib/hooksLib";
 import "./BillingForm.css";
 
 export default function BillingForm({ isLoading, onSubmit }) {
-  const stripe = useState();
+  const stripe = useStripe();
   const elements = useElements();
   const [fields, handleFieldChange] = useFormFields({
     name: "",
@@ -28,7 +28,7 @@ export default function BillingForm({ isLoading, onSubmit }) {
     );
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmitClick = async (event) => {
     event.preventDefault();
 
     if (!stripe || !elements) {
