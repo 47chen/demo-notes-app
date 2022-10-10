@@ -7,16 +7,53 @@ import Signup from "./Signup";
 import NewNote from "./NewNote";
 import Notes from "./Notes";
 import Settings from "./Settings";
+import AuthenticatedRoute from "./AuthenticatedRoute";
+import UnauthenticatedRoute from "./UnauthenticatedRoute";
 
 export default function Links() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/notes/new" element={<NewNote />} />
-      <Route path="/notes/:id" element={<Notes />} />
-      <Route path="/settings" element={<Settings />} />
+      <Route
+        path="/login"
+        element={
+          <UnauthenticatedRoute>
+            <Login />
+          </UnauthenticatedRoute>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <UnauthenticatedRoute>
+            <Signup />
+          </UnauthenticatedRoute>
+        }
+      />
+      <Route
+        path="/notes/new"
+        element={
+          <AuthenticatedRoute>
+            <NewNote />
+          </AuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/notes/:id"
+        element={
+          <AuthenticatedRoute>
+            <Notes />
+          </AuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <AuthenticatedRoute>
+            <Settings />
+          </AuthenticatedRoute>
+        }
+      />
       <Route path="*" element={<NotFound />} />
       {/* catch all unmatched routes */}
       {/* This needs to always be the last route in the <Routes> block. */}
