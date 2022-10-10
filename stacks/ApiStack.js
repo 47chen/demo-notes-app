@@ -6,6 +6,7 @@ export function ApiStack({ stack, app }) {
 
   // Create the API
   const api = new Api(stack, "Api", {
+    customDomain: app.stage === "prod" ? "api.47devnote.com" : undefined,
     defaults: {
       authorizer: "iam",
       function: {
@@ -29,7 +30,7 @@ export function ApiStack({ stack, app }) {
   // Show the API endpoint in the output
   // print url of our API as an output by calling
   stack.addOutputs({
-    ApiEndpoint: api.url,
+    ApiEndpoint: api.customDomainUrl || api.url,
   });
 
   // Return the API resource

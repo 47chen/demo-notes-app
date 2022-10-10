@@ -1,4 +1,3 @@
-import { ResultType } from "@remix-run/router/dist/utils";
 import React, { cloneElement } from "react";
 import { Navigate } from "react-router-dom";
 import { useAppContext } from "../lib/contextLib";
